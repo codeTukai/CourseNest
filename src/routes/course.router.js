@@ -3,10 +3,10 @@ import { Router } from "express";
 const courseRouter = Router()
 
 
-courseRouter.get("/all-course", function(req, res){
+courseRouter.post("/purchase", function(req, res){
 
 })
-courseRouter.get("/my-course", function(req, res){
+courseRouter.get("/preview", function(req, res){
 
 })
 

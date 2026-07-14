@@ -1,7 +1,8 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import mongoose from 'mongoose'
+
 import bcrypt from 'bcrypt'
+import { connectedDB } from './src/DB/db.js'
 
 import { userRouter } from './src/routes/user.router.js'
 import { courseRouter } from './src/routes/course.router.js'
@@ -16,7 +17,13 @@ app.use("/api/v1/course", courseRouter)
 
 
 
-app.listen(3000, ()=>{
-    console.log("port is running");
-    
+const PORT = 3000
+connectedDB()
+.then(()=>{
+    app.listen(PORT,()=>{
+        console.log(`SERVER RUNNING ON: ${PORT}`);
+    })
+})
+.catch((error)=>{
+    console.log("DB connection Failed!!", error);
 })

@@ -14,6 +14,10 @@ const courseSchema = new Schema({
     type: String,
     require: true
    },
+   price:{
+      type: Number,
+      required: true
+   },
    owner:{
     type: mongoose.Schema.Types.ObjectId,
     ref: "Admin"
