@@ -89,13 +89,14 @@ adminRouter.post("/signin",async function(req, res){
   }
 })
 
-adminRouter.post("/course",adminMiddleware, function(req, res){
+adminRouter.post("/create-course", adminMiddleware,async function(req, res){
      const adminId = req.adminId
      const { title, description, imgUrl, price } = req.body
 
      const course = await Course.create({
       title: title,
       description: description,
+      price:price,
       imgUrl: imgUrl,
       owner: adminId
      })
@@ -105,12 +106,17 @@ adminRouter.post("/course",adminMiddleware, function(req, res){
         courseId: course._id
      })
 })
-adminRouter.put("/course", adminMiddleware,async function(req, res){
-  const updateCourseId = req.courseId
-  const { title, description, imgUrl, price } = req.body
+adminRouter.put("/update-course", adminMiddleware,async function(req, res){
+  const adminId = req.adminId
+  const { title, description, imgUrl, price, courseId } = req.body
 
   const updateCourse = await Course.findByIdAndUpdate(
-    updateCourseId,
+    {
+      _id: courseId,
+      owner: adminId
+
+    },
+     
     {
       $set:{
         title,
@@ -124,12 +130,23 @@ adminRouter.put("/course", adminMiddleware,async function(req, res){
     }
   )
  return res.status(201).json({
+  updateCourse,
   message: "course updated"
 })
 
 })
 
-adminRouter.get("/course/bulk", function(req, res){
+adminRouter.get("/allCourse/bulk",adminMiddleware, async function(req, res){
+  const adminId = req.adminId
+
+  const getAllCourse = await Course.find({
+    owner: adminId
+  })
+
+  res.json({
+    getAllCourse,
+    message: "true"
+  })
 
 })
 
