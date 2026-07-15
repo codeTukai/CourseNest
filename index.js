@@ -11,7 +11,7 @@ dotenv.config({ path: "./.env" });
 import { connectedDB } from './src/DB/db.js'
 
 
-console.log(process.env.ADMIN_JSON_SECRET);
+ 
 
 import { userRouter } from './src/routes/user.router.js'
 import { courseRouter } from './src/routes/course.router.js'

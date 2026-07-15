@@ -3,6 +3,10 @@ import { Admin } from "../models/admin.model.js";
 import bcrypt  from "bcrypt";
 import jwt from "jsonwebtoken";
 
+import { adminMiddleware } from "../middleware/auth.middleware.js";
+import { Course } from "../models/course.model.js";
+
+
 const adminRouter = Router()
 
 
@@ -63,7 +67,7 @@ adminRouter.post("/signin",async function(req, res){
       const token = jwt.sign(
         {
           email,
-          adminId: admin._id,
+          id: admin._id,
         },
         process.env.ADMIN_JSON_SECRET
       );
@@ -85,12 +89,46 @@ adminRouter.post("/signin",async function(req, res){
   }
 })
 
-adminRouter.post("/course", function(req, res){
+adminRouter.post("/course",adminMiddleware, function(req, res){
+     const adminId = req.adminId
+     const { title, description, imgUrl, price } = req.body
+
+     const course = await Course.create({
+      title: title,
+      description: description,
+      imgUrl: imgUrl,
+      owner: adminId
+     })
+
+    return res.json({
+        message: "course created",
+        courseId: course._id
+     })
+})
+adminRouter.put("/course", adminMiddleware,async function(req, res){
+  const updateCourseId = req.courseId
+  const { title, description, imgUrl, price } = req.body
+
+  const updateCourse = await Course.findByIdAndUpdate(
+    updateCourseId,
+    {
+      $set:{
+        title,
+         description,
+          imgUrl, 
+          price
+      }
+      
+    },{
+      new: true
+    }
+  )
+ return res.status(201).json({
+  message: "course updated"
+})
 
 })
-adminRouter.put("/course", function(req, res){
 
-})
 adminRouter.get("/course/bulk", function(req, res){
 
 })
