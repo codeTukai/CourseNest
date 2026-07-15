@@ -5,7 +5,10 @@ import jwt from "jsonwebtoken";
 
 const adminRouter = Router()
 
-const ADMIN_JSON_SECRET = "ADMIN1233445FRFGH554"
+
+
+
+
 
 adminRouter.post("/signup",async function(req, res){
     const { email, firstName, lastName, password } = req.body;
@@ -62,7 +65,7 @@ adminRouter.post("/signin",async function(req, res){
           email,
           adminId: admin._id,
         },
-        ADMIN_JSON_SECRET
+        process.env.ADMIN_JSON_SECRET
       );
 
       return res.status(201).json({

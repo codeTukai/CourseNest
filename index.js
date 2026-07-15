@@ -1,12 +1,24 @@
+import dotenv from 'dotenv'
 import express from 'express'
 import jwt from 'jsonwebtoken'
 
 import bcrypt from 'bcrypt'
+
+
+
+dotenv.config({ path: "./.env" });
+
 import { connectedDB } from './src/DB/db.js'
+
+
+console.log(process.env.ADMIN_JSON_SECRET);
 
 import { userRouter } from './src/routes/user.router.js'
 import { courseRouter } from './src/routes/course.router.js'
 import {adminRouter} from './src/routes/admin.router.js'
+
+
+
 
 const app = express()
 
@@ -19,7 +31,7 @@ app.use("/api/v1/course", courseRouter)
 
 
 
-const PORT = 3000
+const PORT = process.env.PORT || 8000
 connectedDB()
 .then(()=>{
     app.listen(PORT,()=>{

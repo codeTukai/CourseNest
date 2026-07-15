@@ -5,7 +5,8 @@ import jwt from "jsonwebtoken";
 
 const userRouter = Router();
 
-const JSON_SECRET = "USER12334567GFR556GG";
+
+
 
 userRouter.post("/signup", async function (req, res) {
   const { email, firstName, lastName, password } = req.body;
@@ -60,7 +61,7 @@ userRouter.post("/signin", async function (req, res) {
           email,
           userId: user._id,
         },
-        JSON_SECRET
+        process.env.USER_JSON_SECRET
       );
 
       return res.status(201).json({
