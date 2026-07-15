@@ -1,13 +1,13 @@
 import { Router } from "express";
 import { User } from "../models/user.models.js";
+import { Purchase } from "../models/purchase.model.js";
 import bcrypt, { hash } from "bcrypt";
 import jwt from "jsonwebtoken";
 import { userMiddleware } from "../middleware/auth.middleware.js";
+import mongoose from "mongoose";
+import { Course } from "../models/course.model.js";
 
 const userRouter = Router();
-
-
-
 
 userRouter.post("/signup", async function (req, res) {
   const { email, firstName, lastName, password } = req.body;
@@ -82,16 +82,52 @@ userRouter.post("/signin", async function (req, res) {
   }
 });
 
-userRouter.post("/purchase-course",userMiddleware, function (req, res) {
-    const userId = req.userId
+userRouter.get("/purchase-course", userMiddleware, async function (req, res) {
+  const userId = req.userId;
 
-    console.log(userId);
+const purchase = await Purchase.find({
+  userId
+})
 
-    res.json({
-        message: "welcome user for course purchase"
-    })
-    
+const allPurchaseCourse = await Course.find({
+  _id:{$in: purchase.map(c=>c.courseId)}
+})
 
+  // const purchasesCourse = await Purchase.aggregate([
+  //   {
+  //     $match: {
+  //       userId: new mongoose.Types.ObjectId(userId)
+  //     },
+  //   },
+  //   {
+  //     $lookup: {
+  //       from: "courses",
+  //       localField: "courseId", //search
+  //       foreignField: "_id", //matching user or log-in user
+  //       as: "course",
+  //     },
+  //   },
+  //   {
+  //     $unwind: "$course",
+  //   },
+  //   {
+  //     $project: {
+  //       _id: 0,
+  //       purchaseId: "$_id",
+  //       courseId: "$course._id",
+  //       title: "$course.title",
+  //       description: "$course.description",
+  //       imgUrl: "$course.imgUrl",
+  //       price: "$course.price",
+  //     },
+  //   },
+  // ]);
+
+
+  res.json({
+  
+    allPurchaseCourse
+  });
 });
 
 export { userRouter };
