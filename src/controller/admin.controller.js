@@ -1,6 +1,7 @@
 import { Admin } from "../models/admin.model.js";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import { Course } from "../models/course.model.js";
 
 const adminRegister = async (req, res) => {
     const { email, firstName, lastName, password} = req.body
@@ -77,7 +78,30 @@ const adminLogin = async (req, res) => {
       }
 }
 
+
+const createCourse = async (req, res) => {
+    const adminId = req.adminId
+    console.log(adminId);
+
+     const { title, description, imgUrl, price } = req.body
+
+     const createCourse = await Course.create({
+       title: title,
+      description: description,
+      price:price,
+      imgUrl: imgUrl,
+      owner: adminId
+     })
+
+     return res.json({
+        courseId:createCourse._id,
+        message:"course created successfully"
+     })
+    
+}
+
 export {
     adminRegister,
-    adminLogin
+    adminLogin,
+    createCourse
 }
