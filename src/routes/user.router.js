@@ -89,7 +89,7 @@ const purchase = await Purchase.find({
   userId
 })
 
-const allPurchaseCourse = await Course.find({
+const courseData = await Course.find({
   _id:{$in: purchase.map(c=>c.courseId)}
 })
 
@@ -126,7 +126,7 @@ const allPurchaseCourse = await Course.find({
 
   res.json({
   
-    allPurchaseCourse
+    courseData
   });
 });
 
