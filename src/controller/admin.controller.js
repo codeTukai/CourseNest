@@ -105,6 +105,35 @@ try {
     
 }
 
+const updateCourse = async (req, res) => {
+ 
+  const adminId = req.adminId
+  const { title, description, imgUrl, price, courseId } = req.body
+
+  const updateCourse = await Course.findByIdAndUpdate(
+    {
+      _id: courseId,
+      owner: adminId
+
+    },
+     
+    {
+      $set:{
+        title,
+         description,
+          imgUrl, 
+          price
+      }
+      
+    },{
+      new: true
+    }
+  )
+ return res.status(201).json({
+  updateCourse,
+  message: "course updated"
+})
+}
 export {
     adminRegister,
     adminLogin,

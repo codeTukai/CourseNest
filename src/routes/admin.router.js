@@ -15,23 +15,7 @@ adminRouter.post("/signup", adminRegister)
 adminRouter.post("/signin",adminLogin)
 
 adminRouter.post("/create-course", adminMiddleware, createCourse )
-  // adminMiddleware,async function(req, res){
-  //    const adminId = req.adminId
-//      const { title, description, imgUrl, price } = req.body
-
-//      const course = await Course.create({
-//       title: title,
-//       description: description,
-//       price:price,
-//       imgUrl: imgUrl,
-//       owner: adminId
-//      })
-
-//     return res.json({
-//         message: "course created",
-//         courseId: course._id
-//      })
-// })
+  
 adminRouter.put("/update-course", adminMiddleware,async function(req, res){
   const adminId = req.adminId
   const { title, description, imgUrl, price, courseId } = req.body
