@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { adminMiddleware } from "../middleware/auth.middleware.js";
 import { Course } from "../models/course.model.js";
-import { adminLogin, adminRegister, createCourse } from "../controller/admin.controller.js";
+import { adminLogin, adminRegister, createCourse, updateCourse } from "../controller/admin.controller.js";
 
 
 const adminRouter = Router()
@@ -16,35 +16,7 @@ adminRouter.post("/signin",adminLogin)
 
 adminRouter.post("/create-course", adminMiddleware, createCourse )
   
-adminRouter.put("/update-course", adminMiddleware,async function(req, res){
-  const adminId = req.adminId
-  const { title, description, imgUrl, price, courseId } = req.body
-
-  const updateCourse = await Course.findByIdAndUpdate(
-    {
-      _id: courseId,
-      owner: adminId
-
-    },
-     
-    {
-      $set:{
-        title,
-         description,
-          imgUrl, 
-          price
-      }
-      
-    },{
-      new: true
-    }
-  )
- return res.status(201).json({
-  updateCourse,
-  message: "course updated"
-})
-
-})
+adminRouter.put("/update-course", adminMiddleware,updateCourse)
 
 adminRouter.get("/allCourse/bulk",adminMiddleware, async function(req, res){
   const adminId = req.adminId
