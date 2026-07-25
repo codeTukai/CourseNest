@@ -137,5 +137,6 @@ const updateCourse = async (req, res) => {
 export {
     adminRegister,
     adminLogin,
-    createCourse
+    createCourse,
+    updateCourse
 }
