@@ -82,21 +82,26 @@ const adminLogin = async (req, res) => {
 const createCourse = async (req, res) => {
     const adminId = req.adminId
     console.log(adminId);
-
-     const { title, description, imgUrl, price } = req.body
-
-     const createCourse = await Course.create({
-       title: title,
-      description: description,
-      price:price,
-      imgUrl: imgUrl,
-      owner: adminId
-     })
-
-     return res.json({
-        courseId:createCourse._id,
-        message:"course created successfully"
-     })
+try {
+  
+       const { title, description, imgUrl, price } = req.body
+  
+       const createCourse = await Course.create({
+         title: title,
+        description: description,
+        price:price,
+        imgUrl: imgUrl,
+        owner: adminId
+       })
+  
+       return res.json({
+          courseId:createCourse._id,
+          message:"course created successfully"
+       })
+} catch (error) {
+  console.log(error.message);
+  
+}
     
 }
 
