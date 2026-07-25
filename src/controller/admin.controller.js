@@ -134,9 +134,17 @@ const updateCourse = async (req, res) => {
   message: "course updated"
 })
 }
+
+const getAllCourse = async (req, res) => {
+  const adminId = req.adminId
+  const allCourse = await Course.find({
+    owner: adminId
+  })
+}
 export {
     adminRegister,
     adminLogin,
     createCourse,
-    updateCourse
+    updateCourse,
+    getAllCourse
 }

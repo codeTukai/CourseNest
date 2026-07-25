@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { adminMiddleware } from "../middleware/auth.middleware.js";
 import { Course } from "../models/course.model.js";
-import { adminLogin, adminRegister, createCourse, updateCourse } from "../controller/admin.controller.js";
+import { adminLogin, adminRegister, createCourse, getAllCourse, updateCourse } from "../controller/admin.controller.js";
 
 
 const adminRouter = Router()
@@ -18,19 +18,7 @@ adminRouter.post("/create-course", adminMiddleware, createCourse )
   
 adminRouter.put("/update-course", adminMiddleware,updateCourse)
 
-adminRouter.get("/allCourse/bulk",adminMiddleware, async function(req, res){
-  const adminId = req.adminId
-
-  const getAllCourse = await Course.find({
-    owner: adminId
-  })
-
-  res.json({
-    getAllCourse,
-    message: "true"
-  })
-
-})
+adminRouter.get("/allCourse/bulk",adminMiddleware, getAllCourse)
 
 
 export  {adminRouter}
